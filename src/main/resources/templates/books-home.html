@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Book Manager</title>
+</head>
+<body>
+<div align="center">
+    <h1>Book List</h1>
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <!--
+            You are creating a table here, where the header will be the Book
+            details and then the other rows will be filled by the data that
+            you send back in the Model object.
+            -->
+            <th>Book ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Total Pages</th>
+            <th>Customer</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <!--
+         Now that your headers are defined, you can reference the key-value
+         pair "bookList" that you added to the model above.
+         Thymeleaf will loop over each customer and extract the attributes to match
+         your column names.
+        -->
+        <tbody>
+        <tr th:each="book : ${bookList}">
+            <td th:text="${book.id}">Book ID</td>
+            <td th:text="${book.title}">Title</td>
+            <td th:text="${book.author}">Author</td>
+            <td th:text="${book.totalPages}">Total Pages</td>
+            <td th:text="${book.customer}">Customer</td>
+            <td><a th:href="@{'/book/edit/' + ${book.id}}">Edit</a> <a th:href="@{'/book/delete/' + ${book.id}}">Delete</a> </td>
+
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/book/new}">Add New Book</a>
+    <a th:href="@{/}">View Customers</a>
+
+</div>
+</body>
+</html>
