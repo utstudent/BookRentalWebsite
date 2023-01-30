@@ -2,7 +2,6 @@ package com.example.Customer.Website.controllers;
 
 import com.example.Customer.Website.models.Book;
 import com.example.Customer.Website.models.Customer;
-import com.example.Customer.Website.services.BookService;
 import com.example.Customer.Website.services.BookServiceImpl;
 import com.example.Customer.Website.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,7 @@ public class BookController {
 
     @GetMapping("/new")
     public String showNewBookPage(Model model) {
-        // Here a new (empty) Customer is created and then sent to the view
+        // Here a new (empty) Book is created and then sent to the view
         Book book = new Book();
         model.addAttribute("book", book);
         return "new-book";
