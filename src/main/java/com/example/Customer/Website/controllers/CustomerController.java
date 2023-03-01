@@ -31,6 +31,15 @@ public class CustomerController {
         return "index";
     }
 
+    @GetMapping("/customer-list")
+    public String viewCustomerPage(Model model) {
+        // Here you call the service to retrieve all the customers
+        final List<Customer> customerList = customerService.getAllCustomers();
+        // Once the customers are retrieved, you can store them in model and return it to the view
+        model.addAttribute("customerList", customerList);
+        return "customer-list";
+    }
+
     @GetMapping("/new")
     public String showNewCustomerPage(Model model) {
         // Here a new (empty) Customer is created and then sent to the view
