@@ -23,10 +23,12 @@ public class Role implements GrantedAuthority {
     private Roles role;
 
     public Role(Roles role) {
+
         this.role = role;
     }
 
     @JsonIgnore
+    @Override
     public String getAuthority() {
         return role.name();
     }

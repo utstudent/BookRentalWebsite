@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 
@@ -29,6 +30,8 @@ public class CustomerWebsiteApplication implements CommandLineRunner {
 
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // The main method is defined here which will start your application
     public static void main(String[] args) {
@@ -42,20 +45,24 @@ public class CustomerWebsiteApplication implements CommandLineRunner {
 
 
         Role userRole = Role.builder().role(Role.Roles.ROLE_USER).build();
+        if (roleRepository.findAll().isEmpty()) {
+            roleRepository.save(userRole);
+        }
         Role adminRole = Role.builder().role(Role.Roles.ROLE_ADMIN).build();
 
-        if (roleRepository.findAll().isEmpty()) {
-            roleRepository.saveAll(Arrays.asList(userRole,adminRole));
-        }
+//        if (roleRepository.findAll().isEmpty()) {
+//            roleRepository.saveAll(Arrays.asList(userRole,adminRole));
+//        }
+//
+//        Role admin = roleRepository.findAll().stream().filter(role -> role.getRole() == Role.Roles.ROLE_ADMIN).findFirst().orElseThrow(() -> new IllegalStateException("What happened?"));
 
         if (userService.getAllUsers().isEmpty()) {
-            userService.saveAllUsers(Arrays.asList(
-                    User.builder()
-                            .username("admin")
-                            .password("password")
-                            .authorities(Arrays.asList(adminRole))
-                            .build()
-            ));
+            User admin = User.builder()
+                    .username("admin")
+                    .password(passwordEncoder.encode("password"))
+                    .authorities(Arrays.asList(adminRole))
+                    .build();
+            userService.saveUser(admin);
         }
 
 

@@ -2,6 +2,7 @@ package com.example.Customer.Website.models.SecurityModels;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -50,9 +51,9 @@ public class User implements UserDetails {
         this.password = password;
         this.authorities = authorities;
     }
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "userId", nullable = false)
+    @Builder.Default
+    @OneToMany(cascade = CascadeType.ALL)
+    //@JoinColumn(name = "userId", nullable = true)
     private Collection<Role> authorities = new ArrayList<>();
 
 }
