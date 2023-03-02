@@ -2,8 +2,12 @@ package com.example.Customer.Website;
 
 import com.example.Customer.Website.models.Book;
 import com.example.Customer.Website.models.Customer;
+import com.example.Customer.Website.models.SecurityModels.Role;
+import com.example.Customer.Website.models.SecurityModels.User;
+import com.example.Customer.Website.repositories.RoleRepository;
 import com.example.Customer.Website.services.BookService;
 import com.example.Customer.Website.services.CustomerService;
+import com.example.Customer.Website.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +22,13 @@ public class CustomerWebsiteApplication implements CommandLineRunner {
     private CustomerService customerService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private BookService bookService;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     // The main method is defined here which will start your application
     public static void main(String[] args) {
@@ -30,8 +40,27 @@ public class CustomerWebsiteApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        if (customerService.getAllCustomers().isEmpty()) {
 
+        Role userRole = Role.builder().role(Role.Roles.ROLE_USER).build();
+        Role adminRole = Role.builder().role(Role.Roles.ROLE_ADMIN).build();
+
+        if (roleRepository.findAll().isEmpty()) {
+            roleRepository.saveAll(Arrays.asList(userRole,adminRole));
+        }
+
+        if (userService.getAllUsers().isEmpty()) {
+            userService.saveAllUsers(Arrays.asList(
+                    User.builder()
+                            .username("admin")
+                            .password("password")
+                            .authorities(Arrays.asList(adminRole))
+                            .build()
+            ));
+        }
+
+
+
+        if (customerService.getAllCustomers().isEmpty()) {
             customerService.saveAllCustomer(Arrays.asList(
                             Customer.builder()
                                     .fullName("Customer 1")
@@ -46,26 +75,24 @@ public class CustomerWebsiteApplication implements CommandLineRunner {
         }
 
         if (bookService.getAllBooks().isEmpty()) {
-
             bookService.saveAllBooks(Arrays.asList(
-                    Book.builder()
-                            .title("Harry Potter")
-                            .author("JK Rowling")
-                            .totalPages(230)
-                            .build(),
-                    Book.builder()
-                            .title("Maze Runner")
-                            .author("karen bordough")
-                            .totalPages(305)
-                            .build(),
-                    Book.builder()
-                            .title("Coding for beginners")
-                            .author("Matt Bryant")
-                            .totalPages(149)
-                            .build()
+                            Book.builder()
+                                    .title("Harry Potter")
+                                    .author("JK Rowling")
+                                    .totalPages(230)
+                                    .build(),
+                            Book.builder()
+                                    .title("Maze Runner")
+                                    .author("karen bordough")
+                                    .totalPages(305)
+                                    .build(),
+                            Book.builder()
+                                    .title("Coding for beginners")
+                                    .author("Matt Bryant")
+                                    .totalPages(149)
+                                    .build()
                     )
             );
-
         }
 
     }

@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Home page</title>
+    <meta charset="UTF-8"/>
+    <title>Spring Boot Thymeleaf Application</title>
 </head>
 <body>
+<h1>Welcome to the front page of the Book Lending Application</h1>
 
+<a th:href="@{/user/register}">New User? Register here!</a>
+<a th:href="@{/login}">Existing User? Login here!</a>
 </body>
 </html>
