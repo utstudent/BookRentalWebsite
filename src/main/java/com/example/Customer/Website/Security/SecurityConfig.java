@@ -17,7 +17,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 //disable CSRF filter to allow Postman to easily use the application
-//                .csrf(csrf -> csrf.disable())
+                //.csrf(csrf -> csrf.disable())
                 //start changing endpoint access settings
                 .authorizeRequests(auth -> auth
                         //the following 4 paths should be allowed to all always. They are static and are required to present the pages properly.
@@ -27,7 +27,7 @@ public class SecurityConfig {
                         //make sure that all others requests require authentication.
                         .anyRequest().hasRole("ADMIN"))
                 //use HttpBasic authentication for /update-user, withDefaults() allows you to chain the next method
-//                .httpBasic(Customizer.withDefaults())
+                //.httpBasic(Customizer.withDefaults())
                 //use a form to log in with the default login page
                 .formLogin()
                 .loginProcessingUrl("/login")
