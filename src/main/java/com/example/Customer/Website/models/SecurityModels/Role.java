@@ -19,18 +19,12 @@ public class Role implements GrantedAuthority {
     private Long id;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Roles role;
-
-    public Role(Roles role) {
-
-        this.role = role;
-    }
+    private String role;
 
     @JsonIgnore
     @Override
     public String getAuthority() {
-        return role.name();
+        return role;
     }
 
     public enum Roles {

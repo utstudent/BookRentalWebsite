@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService{
 
     @Autowired
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public User saveUser(User user) {
         return userRepository.save(user);
     }
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    @Transactional
+//    @Transactional
     public List<User> saveAllUsers(List<User> userList) {
         return userRepository.saveAll(userList);
     }

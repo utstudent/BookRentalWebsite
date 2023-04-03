@@ -52,7 +52,7 @@ public class User implements UserDetails {
         this.authorities = authorities;
     }
     @Builder.Default
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     //@JoinColumn(name = "userId", nullable = true)
     private Collection<Role> authorities = new ArrayList<>();
 

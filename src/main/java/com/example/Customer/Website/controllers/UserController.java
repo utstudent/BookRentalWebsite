@@ -39,7 +39,7 @@ public class UserController {
     // creates a Book based on the object you collected from the HTML page
     public String saveUser(@ModelAttribute("user") User user) {
         //User newuser = new User(user.getUsername(), passwordEncoder.encode(user.getPassword()), user.getAuthorities());
-        User newuser1 = User.builder().username(user.getUsername()).password(passwordEncoder.encode(user.getPassword())).authorities(Arrays.asList(Role.builder().role(Role.Roles.ROLE_USER).build())).build();
+        User newuser1 = User.builder().username(user.getUsername()).password(passwordEncoder.encode(user.getPassword())).authorities(Arrays.asList(Role.builder().role(Role.Roles.ROLE_USER.name()).build())).build();
         userService.saveUser(newuser1);
         return "redirect:/";
     }

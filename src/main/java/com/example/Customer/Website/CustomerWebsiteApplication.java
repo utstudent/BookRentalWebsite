@@ -15,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
+import java.util.List;
 
 @SpringBootApplication
 public class CustomerWebsiteApplication implements CommandLineRunner {
@@ -44,15 +45,17 @@ public class CustomerWebsiteApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
 
-        Role userRole = Role.builder().role(Role.Roles.ROLE_USER).build();
-        if (roleRepository.findAll().isEmpty()) {
-            roleRepository.save(userRole);
-        }
-        Role adminRole = Role.builder().role(Role.Roles.ROLE_ADMIN).build();
-
+        Role adminsUserRole = Role.builder().role(Role.Roles.ROLE_USER.name()).build();
+        Role adminRole = Role.builder().role(Role.Roles.ROLE_ADMIN.name()).build();
+        Role userRole = Role.builder().role(Role.Roles.ROLE_USER.name()).build();
 //        if (roleRepository.findAll().isEmpty()) {
-//            roleRepository.saveAll(Arrays.asList(userRole,adminRole));
+//            roleRepository.save(userRole);
+//            roleRepository.save(adminRole);
 //        }
+//        userRole = roleRepository.getReferenceById(1L);
+//        adminRole = roleRepository.getReferenceById(2L);
+        List<Role> adminAuthorities = Arrays.asList(adminRole, adminsUserRole);
+
 //
 //        Role admin = roleRepository.findAll().stream().filter(role -> role.getRole() == Role.Roles.ROLE_ADMIN).findFirst().orElseThrow(() -> new IllegalStateException("What happened?"));
 
@@ -60,9 +63,15 @@ public class CustomerWebsiteApplication implements CommandLineRunner {
             User admin = User.builder()
                     .username("admin")
                     .password(passwordEncoder.encode("password"))
-                    .authorities(Arrays.asList(adminRole))
+                    .authorities(adminAuthorities)
                     .build();
             userService.saveUser(admin);
+            User user = User.builder()
+                    .username("user")
+                    .password(passwordEncoder.encode("password"))
+                    .authorities(List.of(userRole))
+                    .build();
+            userService.saveUser(user);
         }
 
 

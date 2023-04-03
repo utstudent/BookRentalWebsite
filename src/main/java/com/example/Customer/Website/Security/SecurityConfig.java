@@ -21,16 +21,16 @@ public class SecurityConfig {
                 //start changing endpoint access settings
                 .authorizeRequests(auth -> auth
                         //the following 4 paths should be allowed to all always. They are static and are required to present the pages properly.
-                        .antMatchers("/", "/webjars/**", "/css/**", "/login/**", "/images/**", "/user/register").permitAll()
+                        .antMatchers("/", "/webjars/**", "/css/**", "/login/**", "/images/**", "/user/register", "/batch/**").permitAll()
                         //make sure that the admin page can only be accessed user with ROLE_ADMIN
-                        .antMatchers("/customer-view").hasRole("USER")
+                        .antMatchers("/customer-list", "/book").hasRole("USER")
                         //make sure that all others requests require authentication.
                         .anyRequest().hasRole("ADMIN"))
                 //use HttpBasic authentication for /update-user, withDefaults() allows you to chain the next method
                 //.httpBasic(Customizer.withDefaults())
                 //use a form to log in with the default login page
                 .formLogin()
-                .loginProcessingUrl("/login")
+                //.loginProcessingUrl("/login")
                 .failureUrl("/failure")
                 .defaultSuccessUrl("/book", true)
                 .permitAll();
